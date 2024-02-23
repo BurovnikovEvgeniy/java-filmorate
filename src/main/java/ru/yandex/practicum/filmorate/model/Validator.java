@@ -8,9 +8,11 @@ import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import java.time.LocalDate;
 
 public class Validator {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(Validator.class);
 
-    private Validator() {}
+    private Validator() {
+    }
 
     public static void isValid(final User user) {
         if (!EmailValidator.getInstance().isValid(user.getEmail())) {
