@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.models;
 
 import org.junit.jupiter.api.Test;
-import ru.yandex.practicum.filmorate.BaseTest;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.model.Validator;
@@ -12,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class UserTest extends BaseTest {
+public class UserTest {
 
     @Test
     public void createValidUser() {
