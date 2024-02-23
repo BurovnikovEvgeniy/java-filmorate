@@ -2,9 +2,11 @@ package ru.yandex.practicum.filmorate.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ru.yandex.practicum.filmorate.exceptions.FilmNotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
@@ -20,9 +22,9 @@ public class FilmController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FilmController.class);
     private final HashMap<Long, Film> filmMap = new HashMap<>();
-    private static int idCounter = 0;
+    private static int idCounter = 1;
 
-    @RequestMapping(path = "/create", method = RequestMethod.POST)
+    @PostMapping
     public Film createFilm(@RequestBody Film film) {
         Validator.isValid(film);
         film.setId(idCounter++);
@@ -31,7 +33,7 @@ public class FilmController {
         return film;
     }
 
-    @RequestMapping(path = "/update", method = RequestMethod.PUT)
+    @PutMapping
     public Film updateUser(@RequestBody Film updateFilm) {
         Validator.isValid(updateFilm);
         if (!filmMap.containsKey(updateFilm.getId())) {
@@ -43,7 +45,7 @@ public class FilmController {
         return updateFilm;
     }
 
-    @RequestMapping(path = "/get", method = RequestMethod.GET)
+    @GetMapping
     public List<Film> getUsers() {
         LOGGER.info("Получаем данные обо всех фильмах");
         return new ArrayList<>(filmMap.values());
