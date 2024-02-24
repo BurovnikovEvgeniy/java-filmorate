@@ -1,13 +1,16 @@
 package ru.yandex.practicum.filmorate.model;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDate;
 
 /**
  * Film.
  */
-@Data
+@Getter
+@Setter
 @Builder
 public class Film {
     public static final LocalDate OLDEST_FILM = LocalDate.of(1895, 12, 28);

@@ -15,13 +15,14 @@ import ru.yandex.practicum.filmorate.model.Validator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/films")
 public class FilmController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FilmController.class);
-    private final HashMap<Long, Film> filmMap = new HashMap<>();
+    private final Map<Long, Film> filmMap = new HashMap<>();
     private static int idCounter = 1;
 
     @PostMapping
