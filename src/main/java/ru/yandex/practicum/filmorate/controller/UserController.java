@@ -15,7 +15,6 @@ import ru.yandex.practicum.filmorate.service.user.UserService;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @RestController
 @Slf4j
