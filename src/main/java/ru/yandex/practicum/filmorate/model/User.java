@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -15,6 +17,7 @@ public class User {
     private String login;
     private String name;
     private LocalDate birthday;
+    private final Set<Long> friends = new HashSet<>();
 
     public String getName() {
         if (name == null || name.isBlank()) {
