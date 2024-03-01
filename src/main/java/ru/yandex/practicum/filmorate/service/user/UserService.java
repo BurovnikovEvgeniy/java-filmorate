@@ -51,6 +51,8 @@ public class UserService {
 
     public void addFriend(long userId, long friendId) {
         log.info("Пытаемся передружить пользователей с id = " + userId + " и с id = " + friendId);
+        userStorage.getUserById(userId);
+        userStorage.getUserById(friendId);
         boolean status = friendDao.getFriendsByUserId(userId).contains(friendId);
         friendDao.addFriendRelationships(userId, friendId, status);
     }
