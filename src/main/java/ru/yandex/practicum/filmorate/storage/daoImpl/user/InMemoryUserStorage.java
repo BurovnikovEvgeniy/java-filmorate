@@ -1,10 +1,11 @@
-package ru.yandex.practicum.filmorate.storage.user;
+package ru.yandex.practicum.filmorate.storage.daoImpl.user;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exceptions.UserNotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.model.Validator;
+import ru.yandex.practicum.filmorate.storage.dao.UserStorage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 @Component
 @Slf4j
+@Deprecated
 public class InMemoryUserStorage implements UserStorage {
 
     private final Map<Long, User> userMap = new HashMap<>();

@@ -47,6 +47,10 @@ public class Validator {
             LOGGER.error("Продолжительность фильма должна быть положительной");
             throw new ValidationException("Продолжительность фильма невалидна");
         }
+//        if (film.getRating() == null) {
+//            LOGGER.error("Не указан рейтинг фильма");
+//            throw new ValidationException("Рейтинг фильма невалиден");
+//        }
         LOGGER.debug("Данные фильма валиды");
     }
 }
