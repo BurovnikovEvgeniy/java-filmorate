@@ -20,12 +20,12 @@ public class GenreService {
     }
 
     public List<Genre> getAllGenre() {
-        log.info("Получим список всех жанров");
+        log.info("Пытаемся получить список всех жанров");
         return genreDao.getAllGenre();
     }
 
     public Genre getGenreId(long  id) {
-        log.info("Получим жанр с id " + id);
+        log.info("Пытаемся получить информацию о жанре с id " + id);
         return genreDao.getGenreById(id);
     }
 }

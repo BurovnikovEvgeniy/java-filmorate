@@ -31,7 +31,7 @@ public class FilmService {
     }
 
     public Film createFilm(Film film) {
-        log.info("Поступил запрос на добавление нового фильма");
+        log.info("Пытаемся создать новый фильм");
         Film addFilm = filmStorage.addFilm(film);
         genreFilmsDao.addGenresForFilmId(addFilm.getId(), film.getGenres());
         addFilm.getGenres().addAll(film.getGenres());
@@ -41,7 +41,7 @@ public class FilmService {
     }
 
     public Film updateFilm(Film film) {
-        log.info("Поступил запрос на обновление данных о фильме");
+        log.info("Пытаемся обновить данные о фильме");
         Film updateFilm = filmStorage.updateFilm(film);
         genreFilmsDao.updateGenresByFilmId(updateFilm.getId(), film.getGenres());
         updateFilm.getGenres().addAll(genreFilmsDao.getGenresByFilmId(updateFilm.getId()));
@@ -51,7 +51,7 @@ public class FilmService {
     }
 
     public List<Film> getFilms() {
-        log.info("Поступил запрос на получения всех данных о фильмах");
+        log.info("Пытаемся получить все данные о фильмах");
         List<Film> list = filmStorage.getAllFilms();
         list.forEach(film -> {
             film.getGenres().addAll(genreFilmsDao.getGenresByFilmId(film.getId()));
@@ -62,7 +62,7 @@ public class FilmService {
     }
 
     public Film getFilmById(long id) {
-        log.info("Поступил запрос на получение фильма по id");
+        log.info("Пытаемся получить все данные о фильме по id = " + id);
         Film film = filmStorage.getFilmById(id);
         film.getGenres().addAll(genreFilmsDao.getGenresByFilmId(film.getId()));
         film.getLikes().addAll(likeDao.getLikesByFilmId(film.getId()));
