@@ -58,8 +58,7 @@ public class GenreFilmsImpl implements GenreFilmsDao {
                 );
             } catch (DuplicateKeyException e) {
                 log.error("Жанры у фильма не должны дублироваться");
-            }
-            catch (DataAccessException e) {
+            } catch (DataAccessException e) {
                 throw new GenreNotFoundException("");
             }
         }
