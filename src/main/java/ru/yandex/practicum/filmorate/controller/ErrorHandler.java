@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.yandex.practicum.filmorate.exceptions.AddNewDataInDBException;
+import ru.yandex.practicum.filmorate.exceptions.DeleteDataInDBException;
 import ru.yandex.practicum.filmorate.exceptions.RelationshipNotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.FilmNotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.GenreNotFoundException;
@@ -34,6 +35,12 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, String> handleUpdateDataInDBException(final UpdateDataInDBException e) {
+        return Map.of("message", e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> handleDeleteDataInDBException(final DeleteDataInDBException e) {
         return Map.of("message", e.getMessage());
     }
 
