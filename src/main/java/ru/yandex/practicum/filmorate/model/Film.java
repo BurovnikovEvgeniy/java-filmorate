@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.model;
 
-import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,9 +25,5 @@ public class Film {
     private final Set<Long> likes = new HashSet<>();
     private Mpa mpa;
     @Getter
-    private final List<Genre> genres = new ArrayList<>(); // ???
-
-//    @Getter
-//    private final Set<Genre> genres = new LinkedHashSet<>(); // ???
-
+    private final List<Genre> genres = new ArrayList<>();
 }
