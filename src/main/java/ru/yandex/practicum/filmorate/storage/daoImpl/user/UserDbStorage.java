@@ -74,7 +74,7 @@ public class UserDbStorage implements UserStorage {
         }
     }
 
-    private static class UserMapper implements RowMapper<User> {
+    static class UserMapper implements RowMapper<User> {
         @Override
         public User mapRow(ResultSet resultSet, int rowNum) throws SQLException {
             return User.builder()

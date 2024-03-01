@@ -7,7 +7,9 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+import ru.yandex.practicum.filmorate.exceptions.AddNewDataInDBException;
 import ru.yandex.practicum.filmorate.exceptions.FilmNotFoundException;
+import ru.yandex.practicum.filmorate.exceptions.UpdateDataInDBException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.model.Validator;
@@ -33,50 +35,73 @@ public class FilmDbStorage implements FilmStorage {
     @Override
     public Film addFilm(Film film) {
         Validator.isValid(film);
+        log.info("Добавляем информацию о новом фильме в базу фильмов");
+        try {
+            jdbcTemplate.update("INSERT INTO films (name, description, release_date, duration, id_rating) VALUES(?, ?, ?, ?, ?)",
+                    film.getName(),
+                    film.getDescription(),
+                    film.getReleaseDate(),
+                    film.getDuration(),
+                    film.getMpa().getId()
+            );
+        } catch (DataAccessException e) {
+            log.error("Добавление данных о фильме было завершилось неудачно");
+            throw new AddNewDataInDBException("Данные о фильме с id = " + film.getId());
+        }
 
-        jdbcTemplate.update("INSERT INTO films (name, description, release_date, duration, id_rating) VALUES(?, ?, ?, ?, ?)",
-                film.getName(),
-                film.getDescription(),
-                film.getReleaseDate(),
-                film.getDuration(),
-                film.getMpa().getId()
-        );
-        log.info("В базу добавлен новый фильм с id = " + film.getId());
-        Film newFilm = jdbcTemplate.queryForObject("SELECT * FROM films " +
-                        "WHERE name=? AND description=? " +
-                        "AND release_date=? " +
-                        "AND duration=? " +
-                        "AND id_rating=?",
-                new FilmMapper(),
-                film.getName(),
-                film.getDescription(),
-                film.getReleaseDate(),
-                film.getDuration(),
-                film.getMpa().getId()
-        );
-        return newFilm;
+        log.debug("В базу добавлен новый фильм с id = " + film.getId());
+
+        log.info("Запросим данные о новом фильме id = " + film.getId());
+        try {
+            return jdbcTemplate.queryForObject("SELECT * FROM films " +
+                            "WHERE name=? AND description=? " +
+                            "AND release_date=? " +
+                            "AND duration=? " +
+                            "AND id_rating=?",
+                    new FilmMapper(),
+                    film.getName(),
+                    film.getDescription(),
+                    film.getReleaseDate(),
+                    film.getDuration(),
+                    film.getMpa().getId()
+            );
+        } catch (DataAccessException e) {
+            log.error("Данные о только что добавленном фильме не были получены");
+            throw new FilmNotFoundException("Ошибка получения данных о фильме после добавления а базу");
+        }
     }
 
     @Override
     public Film updateFilm(Film film) {
         Validator.isValid(film);
         getFilmById(film.getId());
-        jdbcTemplate.update("UPDATE films "
-                        + "SET name=?, description=?, release_date=?, duration=?, id_rating=?"
-                        + "WHERE film_id=?",
-                film.getName(),
-                film.getDescription(),
-                film.getReleaseDate(),
-                film.getDuration(),
-                film.getMpa().getId(),
-                film.getId());
+        log.info("Обновляем данные о фильме " + film.getId());
+        try {
+            jdbcTemplate.update("UPDATE films "
+                            + "SET name=?, description=?, release_date=?, duration=?, id_rating=?"
+                            + "WHERE film_id=?",
+                    film.getName(),
+                    film.getDescription(),
+                    film.getReleaseDate(),
+                    film.getDuration(),
+                    film.getMpa().getId(),
+                    film.getId());
+        } catch (DataAccessException e) {
+            log.error("Данные о фильме не были обновлены");
+            throw new UpdateDataInDBException("Ошибка обновления данных о фильме");
+        }
         return getFilmById(film.getId());
     }
 
     @Override
     public List<Film> getAllFilms() {
         log.info("Получаем данные обо всех фильмах из базы");
-        return new ArrayList<>(jdbcTemplate.query("SELECT * FROM films", new FilmMapper()));
+        try {
+            return new ArrayList<>(jdbcTemplate.query("SELECT * FROM films", new FilmMapper()));
+        } catch (DataAccessException e) {
+            log.error("Данные обо всех фильмах не были получены из базы");
+            throw new FilmNotFoundException("Ошибка получения данных обо всех фильмах из базы");
+        }
     }
 
     @Override
@@ -91,7 +116,7 @@ public class FilmDbStorage implements FilmStorage {
         }
     }
 
-    private static class FilmMapper implements RowMapper<Film> {
+    static class FilmMapper implements RowMapper<Film> {
         @Override
         public Film mapRow(ResultSet resultSet, int rowNum) throws SQLException {
             Mpa mpa = new Mpa();

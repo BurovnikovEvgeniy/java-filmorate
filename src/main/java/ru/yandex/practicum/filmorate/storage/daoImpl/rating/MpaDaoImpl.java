@@ -40,7 +40,7 @@ public class MpaDaoImpl implements MpaDao {
         return new ArrayList<>(jdbcTemplate.query("SELECT * FROM rating_type ORDER BY rating_id", new RatingMapper()));
     }
 
-    private static class RatingMapper implements RowMapper<Mpa> {
+    static class RatingMapper implements RowMapper<Mpa> {
         @Override
         public Mpa mapRow(ResultSet resultSet, int rowNum) throws SQLException {
             Mpa mpa = new Mpa();
