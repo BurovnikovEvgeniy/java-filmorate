@@ -12,9 +12,9 @@ import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@JdbcTest // указываем, о необходимости подготовить бины для работы с БД
+@JdbcTest
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-class UserDbStorageTest {
+class FilmorateApplicationTests {
 	private final JdbcTemplate jdbcTemplate;
 
 	@Test
