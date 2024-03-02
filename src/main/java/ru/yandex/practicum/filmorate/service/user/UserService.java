@@ -66,13 +66,13 @@ public class UserService {
         log.info("Пытаемся узнать общих друзей пользователя с id = " + firstUserId + " и с id = " + secondUserId);
         List<Long> firstUserFriends = friendDao.getFriendsByUserId(firstUserId);
         List<Long> secondUserFriends = friendDao.getFriendsByUserId(secondUserId);
-        List<User> commonFriends = new ArrayList<>();
+        List<Long> commonFriends = new ArrayList<>();
         for (Long currentFriendCandidate: firstUserFriends) {
             if (secondUserFriends.contains(currentFriendCandidate)) {
-                commonFriends.add(userStorage.getUserById(currentFriendCandidate));
+                commonFriends.add(currentFriendCandidate);
             }
         }
-        return commonFriends;
+        return userStorage.getUsersById(commonFriends);
     }
 
     public List<User> getFriendsById(Long userId) {

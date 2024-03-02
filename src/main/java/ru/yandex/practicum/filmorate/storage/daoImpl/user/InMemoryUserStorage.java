@@ -56,4 +56,9 @@ public class InMemoryUserStorage implements UserStorage {
         log.info("Получаем данные о пользователе по id = " + userId + " из базы пользователей");
         return userMap.get(userId);
     }
+
+    @Override
+    public List<User> getUsersById(List<Long> ids) {
+        throw new AssertionError("Функциональность недоступна");
+    }
 }

@@ -15,6 +15,7 @@ import ru.yandex.practicum.filmorate.storage.dao.UserStorage;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -60,6 +61,18 @@ public class UserDbStorage implements UserStorage {
     public List<User> getAllUsers() {
         log.info("Получаем данные обо всех пользователях из базы");
         return new ArrayList<>(jdbcTemplate.query("SELECT * FROM users", new UserMapper()));
+    }
+
+    @Override
+    public List<User> getUsersById(List<Long> ids) {
+        log.info("Получаем данные из базы о списке пользователей");
+        String inSql = String.join(",", Collections.nCopies(ids.size(), "? "));
+        try {
+            return jdbcTemplate.query("SELECT * FROM users WHERE users.user_id IN (" + inSql + ")", new UserMapper(), ids.toArray());
+        } catch (DataAccessException e) {
+            log.error("Не удалось получить данные из базы о списке пользователей " + ids.toArray());
+            throw new UserNotFoundException("Ошибка получание данные о списке пользователей");
+        }
     }
 
     @Override
