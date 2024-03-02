@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.user.UserService;
-import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import java.util.List;
 
@@ -21,37 +20,35 @@ import java.util.List;
 @RequestMapping(value = "/users")
 public class UserController {
 
-    private final UserStorage userStorage;
     private final UserService userService;
 
     @Autowired
-    public UserController(UserStorage userStorage, UserService userService) {
-        this.userStorage = userStorage;
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @PostMapping
     public User createUser(@RequestBody User user) {
         log.info("Поступил запрос на добавление нового пользователя");
-        return userStorage.addUser(user);
+        return userService.createUser(user);
     }
 
     @PutMapping
     public User updateUser(@RequestBody User updateUser) {
         log.info("Поступил запрос на обновление данных о пользователе");
-        return userStorage.updateUser(updateUser);
+        return userService.updateUser(updateUser);
     }
 
     @GetMapping
     public List<User> getUsers() {
         log.info("Поступил запрос на получения всех данных о пользователях");
-        return userStorage.getAllUsers();
+        return userService.getUsers();
     }
 
     @GetMapping("/{id}")
     public User getUserById(@PathVariable String id) {
         log.info("Поступил запрос на получение пользователя по id");
-        return userStorage.getUserById(Long.parseLong(id));
+        return userService.getUserById(Long.parseLong(id));
     }
 
     @PutMapping("{id}/friends/{friendId}")

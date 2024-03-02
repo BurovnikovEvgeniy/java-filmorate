@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.film.FilmService;
-import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 
 import java.util.List;
 
@@ -22,37 +21,35 @@ import java.util.List;
 @RequestMapping(value = "/films")
 public class FilmController {
 
-    private final FilmStorage filmStorage;
     private final FilmService filmService;
 
     @Autowired
-    public FilmController(FilmStorage filmStorage, FilmService filmService) {
-        this.filmStorage = filmStorage;
+    public FilmController(FilmService filmService) {
         this.filmService = filmService;
     }
 
     @PostMapping
     public Film createFilm(@RequestBody Film film) {
         log.info("Поступил запрос на добавление нового фильма");
-        return filmStorage.addFilm(film);
+        return filmService.createFilm(film);
     }
 
     @PutMapping
     public Film updateFilm(@RequestBody Film updateFilm) {
         log.info("Поступил запрос на обновление данных о фильме");
-        return filmStorage.updateFilm(updateFilm);
+        return filmService.updateFilm(updateFilm);
     }
 
     @GetMapping
     public List<Film> getFilms() {
         log.info("Поступил запрос на получения всех данных о фильмах");
-        return filmStorage.getAllFilms();
+        return filmService.getFilms();
     }
 
     @GetMapping("/{id}")
     public Film getFilmById(@PathVariable String id) {
         log.info("Поступил запрос на получение фильма по id");
-        return filmStorage.getFilmById(Long.parseLong(id));
+        return filmService.getFilmById(Long.parseLong(id));
     }
 
     @PutMapping("/{id}/like/{userId}")

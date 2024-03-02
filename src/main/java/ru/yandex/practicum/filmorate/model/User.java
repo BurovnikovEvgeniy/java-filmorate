@@ -17,6 +17,7 @@ public class User {
     private String login;
     private String name;
     private LocalDate birthday;
+    @Getter
     private final Set<Long> friends = new HashSet<>();
 
     public String getName() {
